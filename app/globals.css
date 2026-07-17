@@ -161,12 +161,6 @@
       linear-gradient(var(--card), var(--card)) padding-box,
       linear-gradient(180deg, oklch(1 0 0 / 0.14), oklch(1 0 0 / 0.03)) border-box;
   }
-
-  .ambient {
-    background:
-      radial-gradient(80% 50% at 50% 0%, oklch(1 0 0 / 0.05), transparent 60%),
-      var(--background);
-  }
 }
 
 /* --- Motion primitives (kept gentle) --- */

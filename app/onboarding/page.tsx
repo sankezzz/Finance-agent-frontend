@@ -156,7 +156,7 @@ export default function OnboardingPage() {
             </Field>
 
             <Field
-              label="Monthly income"
+              label="Monthly income (* Must add salary slip in the next step)"
               hint="Optional · ₹"
               className="sm:col-span-2"
             >
@@ -174,7 +174,7 @@ export default function OnboardingPage() {
           {/* Loans */}
           <RowSection
             title="Existing loans"
-            description="Add any active loans or EMIs."
+            description="Add any active loans or EMIs.(* Must upload the document later )"
             addLabel="Add loan"
             onAdd={() =>
               setLoans((l) => [
@@ -193,6 +193,7 @@ export default function OnboardingPage() {
                 <div>
                   <MiniLabel>Type</MiniLabel>
                   <Select
+                    items={LOAN_TYPES}
                     value={loan.type}
                     onValueChange={(v) =>
                       setLoans((rows) =>

@@ -33,11 +33,11 @@ export default function Home() {
       </header>
 
       <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center px-5 pb-24 text-center sm:px-8">
-        <FadeIn>
+        {/* <FadeIn>
           <span className="inline-flex items-center rounded-full border border-border/70 px-3 py-1 text-xs text-muted-foreground">
             Personal Finance Copilot
           </span>
-        </FadeIn>
+        </FadeIn> */}
 
         <FadeIn delay={0.08}>
           <h1 className="text-gradient mt-6 text-balance text-4xl font-semibold tracking-tight sm:text-6xl">

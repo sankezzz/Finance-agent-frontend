@@ -34,7 +34,6 @@ import {
   ACCEPT_ATTR,
   DOC_TYPES,
   docTypeLabel,
-  guessDocType,
   isAcceptedFile,
 } from "@/lib/doc-types";
 import type { DocumentType } from "@/lib/api/types";
@@ -68,6 +67,7 @@ export default function UploadPage() {
   const createRun = useCreateRun();
 
   const [staged, setStaged] = useState<StagedFile[]>([]);
+  const [docType, setDocType] = useState<DocumentType>("bank_statement");
   const [dragging, setDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -88,7 +88,7 @@ export default function UploadPage() {
       incoming.push({
         id: `staged-${++stagedSeq}`,
         file,
-        docType: guessDocType(file.name),
+        docType, // tagged with the type selected up-front
         status: "ready",
       });
     });
@@ -172,14 +172,47 @@ export default function UploadPage() {
             Upload your documents
           </h1>
           <p className="mt-2 max-w-2xl text-muted-foreground">
-            Add your statements one or many at a time and tag each with its type.
-            Upload everything first, then analyze once.
+            Pick a document type, then drop the matching files. Switch the type
+            and add the next batch. Upload everything, then analyze once.
           </p>
         </div>
       </FadeIn>
 
-      {/* Dropzone */}
-      <FadeIn delay={0.06}>
+      {/* Step 1 — pick the document type */}
+      <FadeIn delay={0.04}>
+        <div className="flex flex-col gap-3 rounded-xl border border-border/70 bg-card/40 p-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-3">
+            <span className="grid size-7 shrink-0 place-items-center rounded-md border border-border/70 text-xs font-medium">
+              1
+            </span>
+            <div>
+              <p className="text-sm font-medium">What are you uploading?</p>
+              <p className="text-xs text-muted-foreground">
+                Choose the type, then drop the matching files below.
+              </p>
+            </div>
+          </div>
+          <Select
+            items={DOC_TYPES}
+            value={docType}
+            onValueChange={(v) => setDocType(v as DocumentType)}
+          >
+            <SelectTrigger className="w-full sm:w-[230px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {DOC_TYPES.map((t) => (
+                <SelectItem key={t.value} value={t.value}>
+                  {t.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </FadeIn>
+
+      {/* Step 2 — drop the files for that type */}
+      <FadeIn delay={0.08} className="mt-4">
         <div
           role="button"
           tabIndex={0}
@@ -204,10 +237,15 @@ export default function UploadPage() {
             <UploadCloud className="size-5 text-muted-foreground" />
           </div>
           <p className="text-sm font-medium">
-            Drag &amp; drop files, or click to browse
+            Drop your{" "}
+            <span className="underline decoration-border underline-offset-4">
+              {docTypeLabel(docType)}
+            </span>{" "}
+            files here, or click to browse
           </p>
           <p className="mt-1 text-xs text-muted-foreground">
-            PDF, CSV, Excel, PNG or JPG
+            PDF, CSV, Excel, PNG or JPG · files are tagged as{" "}
+            {docTypeLabel(docType)}
           </p>
           <input
             ref={inputRef}
@@ -263,30 +301,9 @@ export default function UploadPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Select
-                    value={item.docType}
-                    disabled={item.status === "uploading"}
-                    onValueChange={(v) =>
-                      setStaged((s) =>
-                        s.map((f) =>
-                          f.id === item.id
-                            ? { ...f, docType: v as DocumentType }
-                            : f
-                        )
-                      )
-                    }
-                  >
-                    <SelectTrigger className="w-[190px]" size="sm">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {DOC_TYPES.map((t) => (
-                        <SelectItem key={t.value} value={t.value}>
-                          {t.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <Badge variant="secondary">
+                    {docTypeLabel(item.docType)}
+                  </Badge>
                   {item.status === "uploading" ? (
                     <span className="grid size-9 place-items-center">
                       <Loader2 className="size-4 animate-spin text-muted-foreground" />
