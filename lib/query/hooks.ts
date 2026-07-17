@@ -12,9 +12,11 @@ import {
   getUser,
   listDocuments,
   onboard,
+  sendChat,
   uploadDocument,
 } from "@/lib/api/endpoints";
 import type {
+  ChatRequest,
   CreateRunRequest,
   DocumentType,
   OnboardingRequest,
@@ -97,5 +99,14 @@ export function useDashboard(userId: string | null, enabled: boolean) {
     queryFn: () => getDashboard(userId!),
     enabled: !!userId && enabled,
     staleTime: 5 * 60_000,
+  });
+}
+
+/* -------------------------------- Chat -------------------------------- */
+
+/** One reply per call; the client owns the conversation history. */
+export function useChat() {
+  return useMutation({
+    mutationFn: (body: ChatRequest) => sendChat(body),
   });
 }

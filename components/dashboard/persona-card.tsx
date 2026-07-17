@@ -33,11 +33,14 @@ function ChatHub({ intro }: { intro: string }) {
       </div>
       <Link
         href="/chat"
-        className={cn(buttonVariants({ size: "sm" }), "group mt-4")}
+        className={cn(
+          buttonVariants({ size: "lg" }),
+          "group mt-5 h-9 w-full gap-2 px-6 text-base sm:w-auto"
+        )}
       >
-        <MessageSquare className="size-4" />
+        <MessageSquare className="size-5" />
         Chat with your copilot
-        <ArrowRight className="transition-transform group-hover:translate-x-0.5" />
+        <ArrowRight className="size-5 transition-transform group-hover:translate-x-0.5" />
       </Link>
     </div>
   );
@@ -99,17 +102,15 @@ export function PersonaCard({
         </h2>
         <p className="mt-3 max-w-xl text-pretty text-muted-foreground">
           Everything below is built from the documents you uploaded — your
-          spending, savings, and health score, all in one place. Your
-          personalized money persona is coming soon; for now, dig into your
-          numbers or just ask.
+          spending, savings, and health score, all in one place. 
         </p>
         <div className="mt-5">
-          <Badge
+          {/* <Badge
             variant="outline"
             className="border-dashed text-muted-foreground"
           >
             Persona coming soon
-          </Badge>
+          </Badge> */}
         </div>
         <ChatHub intro="Want more personalization? Ask your copilot about your data." />
       </div>

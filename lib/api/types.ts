@@ -184,6 +184,26 @@ export interface SubscriptionItem {
   category: string;
 }
 
+/* -------------------------------- Chat -------------------------------- */
+
+export type ChatRole = "user" | "assistant";
+
+export interface ChatMessage {
+  role: ChatRole;
+  content: string;
+}
+
+/** Stateless: the client holds the conversation and sends the full history. */
+export interface ChatRequest {
+  user_id: string;
+  messages: ChatMessage[]; // non-empty, oldest→newest, no system role
+}
+
+export interface ChatResponse {
+  role: "assistant";
+  content: string;
+}
+
 /**
  * Reserved for the future persona feature. `persona` is `null` today; the
  * contract won't change when it ships. This is an optimistic shape so the

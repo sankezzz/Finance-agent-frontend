@@ -1,5 +1,7 @@
 import { apiFetch } from "./client";
 import type {
+  ChatRequest,
+  ChatResponse,
   CreateRunRequest,
   DashboardResponse,
   Document,
@@ -52,4 +54,9 @@ export function getRun(runId: string): Promise<Run> {
 /** GET /dashboard/{user_id} → composed dashboard from the latest analysis. */
 export function getDashboard(userId: string): Promise<DashboardResponse> {
   return apiFetch<DashboardResponse>(`/dashboard/${userId}`);
+}
+
+/** POST /chat → one grounded assistant reply. Stateless; send full history. */
+export function sendChat(body: ChatRequest): Promise<ChatResponse> {
+  return apiFetch<ChatResponse>("/chat", { method: "POST", json: body });
 }
