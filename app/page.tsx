@@ -40,7 +40,7 @@ export default function Home() {
         </FadeIn> */}
 
         <FadeIn delay={0.08}>
-          <h1 className="text-gradient mt-6 text-balance text-4xl font-semibold tracking-tight sm:text-6xl">
+          <h1 className="text-gradient font-display mt-6 text-balance text-5xl font-normal tracking-tight sm:text-7xl">
             Understand your money,
             <br />
             effortlessly.

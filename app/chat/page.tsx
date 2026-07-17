@@ -48,7 +48,7 @@ export default function ChatPage() {
         </FadeIn>
 
         <FadeIn delay={0.1}>
-          <h1 className="text-gradient text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h1 className="text-gradient font-display text-4xl font-normal tracking-tight sm:text-5xl">
             Your copilot is almost ready
           </h1>
         </FadeIn>
