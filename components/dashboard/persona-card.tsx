@@ -19,7 +19,6 @@ export function PersonaCard({
   if (persona) {
     return (
       <div className="edge relative overflow-hidden rounded-2xl p-6 sm:p-8">
-        <div className="glow-radial pointer-events-none absolute inset-0" />
         <div className="relative">
           <div className="mb-3 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground">
             <Sparkles className="size-3.5" />
@@ -49,7 +48,6 @@ export function PersonaCard({
   const first = user.name?.split(" ")[0] || "there";
   return (
     <div className="edge relative overflow-hidden rounded-2xl p-6 sm:p-8">
-      <div className="glow-radial pointer-events-none absolute inset-0" />
       <div className="relative">
         <div className="mb-3 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground">
           <Sparkles className="size-3.5" />

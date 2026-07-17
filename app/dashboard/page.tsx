@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { MessageSquare, ArrowRight, Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
+import { MessageSquare, ArrowRight, Plus, RotateCcw } from "lucide-react";
 
 import { PageShell } from "@/components/shared/page-shell";
 import { FadeIn, Stagger, StaggerItem } from "@/components/shared/motion";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { EmptyState, ErrorState } from "@/components/shared/states";
@@ -24,20 +26,35 @@ import { ApiError } from "@/lib/api/client";
 import { pct, months, inr } from "@/lib/format";
 
 export default function DashboardPage() {
-  const { ready, userId } = useRequireUser();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const session = useRequireUser();
+  const { ready, userId } = session;
   const dash = useDashboard(userId, ready && !!userId);
+
+  function startOver() {
+    session.reset(); // clears user_id + run_id from localStorage
+    queryClient.clear(); // drop all cached user/run/dashboard data
+    router.push("/onboarding");
+  }
 
   return (
     <PageShell
       width="xl"
       headerRight={
-        <Link
-          href="/upload"
-          className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
-        >
-          <Plus className="size-4" />
-          New analysis
-        </Link>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={startOver}>
+            <RotateCcw className="size-4" />
+            Start over
+          </Button>
+          <Link
+            href="/upload"
+            className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
+          >
+            <Plus className="size-4" />
+            New analysis
+          </Link>
+        </div>
       }
     >
       {!ready || !userId || dash.isLoading ? (
@@ -171,7 +188,6 @@ function DashboardContent({
       {/* Chat CTA */}
       <FadeIn delay={0.05}>
         <div className="edge relative overflow-hidden rounded-2xl p-6 text-center sm:p-10">
-          <div className="glow-radial pointer-events-none absolute inset-0" />
           <div className="relative flex flex-col items-center">
             <span className="mb-4 grid size-11 place-items-center rounded-full border border-border/70 bg-gradient-to-b from-white/10 to-transparent">
               <MessageSquare className="size-5" />

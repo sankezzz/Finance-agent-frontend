@@ -25,11 +25,6 @@ export function HealthGauge({
       role="img"
       aria-label={`Health score ${Math.round(clamped)} out of 100`}
     >
-      {/* faint radial glow */}
-      <div
-        aria-hidden
-        className="glow-radial pointer-events-none absolute inset-0"
-      />
       <svg width={size} height={size} className="-rotate-90">
         <defs>
           <linearGradient id="gauge-grad" x1="0" y1="0" x2="1" y2="1">
